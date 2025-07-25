@@ -145,11 +145,6 @@ void PerformASMPatches() {
 	// Menu
 	ASMPatchModsMenu();
 	ASMPatchMenuOptionsLanguageChange();
-<<<<<<< HEAD
-	ASMPatchOnlineMenu();
-	PatchModdedCharacterHiddenByAchievementInMenu();
-=======
->>>>>>> parent of 7aaa8d8f (disable online play)
 
 	// Room
 	ASMPatchAmbushWaveCount();
