@@ -58,12 +58,3 @@ HOOK_METHOD(Font, DrawString, (const char* str, Vector pos, Vector scale, KColor
 		super(str, pos, scale, color, settings);
 	}
 }
-<<<<<<< HEAD
-
-// This one is easier, since the ANM2 already has a frame with the right alpha set.
-HOOK_METHOD(Menu_DailyChallenge, Render, () -> void) {
-	this->_DailyRunSprite.SetLayerFrame(3, 2);
-	super();
-}
-=======
->>>>>>> parent of 7aaa8d8f (disable online play)
