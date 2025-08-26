@@ -172,9 +172,9 @@ HOOK_METHOD(Manager, Render, (void)->void) {
 // eco mode stuff end
 
 //prevents joining lobbies
-HOOK_METHOD(Menu_Game, UnknownJoinLobby, (int unk1, int unk2, int unk3) -> void) {
+// HOOK_METHOD(Menu_Game, UnknownJoinLobby, (int unk1, int unk2, int unk3) -> void) {
 
-}
+// }
 
 //Prints log message about redirected configs
 HOOK_METHOD(ModManager, TryRedirectPath, (std_string* result, std_string* filePath) -> void) {
