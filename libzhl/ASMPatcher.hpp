@@ -412,8 +412,8 @@ public:
 	 * Example: to encode lea ebx, [eax + ecx * 2 + 0xA], call :
 	 * LoadEffectiveAddress(EAX, 0xA, EBX, ECX, 2);
 	 */
-	ASMPatch& LoadEffectiveAddress(Registers base, int32_t offset, Registers dst,
-		std::optional<Registers> index = std::nullopt, uint8_t scale = 0);
+	//ASMPatch& LoadEffectiveAddress(Registers base, int32_t offset, Registers dst,
+	//	std::optional<Registers> index = std::nullopt, uint8_t scale = 0);
 	/* Load an effective address into the given register. This effectively moves
 	 * the value inside the register.
 	 *
@@ -428,7 +428,7 @@ public:
 
 	// Do not use this function with ESP or EBP as the source register as they use the 
 	// SIB byte which is not supported for now.
-	//ASMPatch& LoadEffectiveAddress(Registers src, int32_t offset, Registers dst);
+	ASMPatch& LoadEffectiveAddress(Registers src, int32_t offset, Registers dst);
 	ASMPatch& PreserveRegisters(SavedRegisters& registers);
 	ASMPatch& RestoreRegisters(SavedRegisters& registers);
 	ASMPatch& Push(Registers reg);
