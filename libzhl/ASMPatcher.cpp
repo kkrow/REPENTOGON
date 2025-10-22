@@ -872,19 +872,32 @@ ByteBuffer ASMPatch::EncodeRMOperand(Registers base, int32_t displacement,
 	return result;
 }
 
-ASMPatch& ASMPatch::LoadEffectiveAddress(Registers base, int32_t offset, Registers dst,
-	std::optional<Registers> index, uint8_t scale) {
-	ByteBuffer bytes;
-	bytes.AddByte('\x8D');
-	bytes.AddByteBuffer(EncodeRMOperand(base, offset, index, scale, _ModRM[dst].to_ulong()));
-	return this->AddBytes(bytes);
-}
+ASMPatch& ASMPatch::LoadEffectiveAddress(Registers src, int32_t offset, Registers dst) {
+	ByteBuffer result, hexOffset;
+	result.AddString("\x8D"); // lea opcode
 
-ASMPatch& ASMPatch::LoadEffectiveAddress(Registers dst, int32_t addr) {
-	ByteBuffer bytes;
-	bytes.AddByte('\x8D');
-	bytes.AddByteBuffer(EncodeRMOperand(Registers::EBP, 0, std::nullopt, 0, _ModRM[dst].to_ulong(), true));
-	return this->AddBytes(bytes);
+	// 7-6: mod
+	// 5-3: dest
+	// 2-0: src
+	std::bitset<8> modrmBits = 0b00000000;
+	if (offset < -127 || offset > 127) {
+		modrmBits[7] = true;
+		hexOffset = ToHexString(offset, false);
+	}
+	else {
+		modrmBits[7] = false;
+		hexOffset = ToHexString((int8_t)offset);
+	}
+
+	modrmBits[6] = !modrmBits[7];
+
+	std::bitset<8> destBits = _ModRM[dst] << 3, srcBits = _ModRM[src];
+
+	modrmBits |= (destBits | srcBits);
+	result.AddByteBuffer(ToHexString((int8_t)modrmBits.to_ulong()))
+		.AddByteBuffer(hexOffset);
+
+	return AddBytes(result);
 }
 
 ASMPatch& ASMPatch::Push(ASMPatch::Registers reg) {
