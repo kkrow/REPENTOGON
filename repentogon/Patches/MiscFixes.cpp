@@ -59,34 +59,6 @@ HOOK_METHOD(Font, DrawString, (const char* str, Vector pos, Vector scale, KColor
 	}
 }
 
-// Set patched out deselectable buttons on the online and daily menus to render at 0.5 alpha.
-HOOK_METHOD(Menu_Online, Render, () -> void) {
-	int layers[4] = {1, 2, 3, 14};
-	for (int layer : layers) {
-		this->_anm2.GetLayer(layer)->_color._tint[3] = 0.5;
-	}
-
-	KColor fontColor(0.21f, 0.18f, 0.18f, 1.f);
-	FontSettings settings; 
-	settings._align = 1; 
-
-	Vector pos = Vector(g_MenuManager->_ViewPosition.x - g_MenuManager->_viewPositionSet[19].x + 330, g_MenuManager->_ViewPosition.y - g_MenuManager->_viewPositionSet[19].y + 220);
-
-	super();
-	g_Manager->_font1_TeamMeatEx10.DrawString("Change the Launch Mode\n to Vanilla, in the launcher options\n to play Online.", pos, Vector(1, 1), &fontColor, &settings);
-};
-
-// This one is easier, since the ANM2 already has a frame with the right alpha set.
-HOOK_METHOD(Menu_DailyChallenge, Render, () -> void) {
-	this->_DailyRunSprite.SetLayerFrame(3, 2);
-	super();
-}
-
-//prevents joining lobbies
-HOOK_METHOD(Menu_Game, UnknownJoinLobby, (int unk1, int unk2, int unk3) -> void) {
-
-}
-
 //Prints log message about redirected configs
 HOOK_METHOD(ModManager, TryRedirectPath, (std_string* result, std_string* filePath) -> void) {
 	super(result, filePath);
@@ -101,10 +73,4 @@ HOOK_METHOD(ModManager, TryRedirectPath, (std_string* result, std_string* filePa
 	if (!result->empty() && result->compare(*filePath) != 0 && suffixRes(*result)) {
 		KAGE::_LogMessage(0, "[warn] Redirected .xml config %s\n", result->c_str());
 	}
-}
-
-//prevents playing online modes
-HOOK_METHOD(ModManager, ListMods, () -> void) {
-	super();
-	_modBanStatus = 3;
 }

@@ -1,6 +1,3 @@
-"558bec6aff68????????64a1????????5081ec94040000":
-__thiscall void Menu_DailyChallenge::Render();
-
 struct Menu_DailyChallenge depends (ANM2, AnimationState, Leaderboard, GenericPopup, GenericPrompt) { {{
 	
 }} 

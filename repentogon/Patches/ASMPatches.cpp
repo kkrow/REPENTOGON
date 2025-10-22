@@ -223,7 +223,6 @@ void PerformASMPatches() {
 	// Menu
 	ASMPatchModsMenu();
 	ASMPatchMenuOptionsLanguageChange();
-	ASMPatchOnlineMenu();
 	PatchModdedCharacterHiddenByAchievementInMenu();
 
 	// Room
